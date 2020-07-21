@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -23,11 +23,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "environments")
+@Table(name = "modules")
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties({ "project", "databases" ,"endPoints" })
-public class Environments implements Serializable {
+// @JsonIgnoreProperties({ "endPoints" })
+public class Modules implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -36,28 +36,14 @@ public class Environments implements Serializable {
   private String id;
 
   @Column
-  private String projectName;
-
-  @Column
-  private String environment;
-
-  @Column
   private String moduleName;
-
-  @Column
-  private String ip;
-
-  @Column
-  private String port;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "projectId")
-  private Projects project;
-
-  @OneToMany(mappedBy = "envs", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private List<Databases> databases = new ArrayList<>();
+  @JsonBackReference(value = "modules")
+  private Projects projects;
   
-  @JsonManagedReference(value = "environment")
-  @OneToMany(mappedBy = "envrnts", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonManagedReference(value = "module_endpoints")
+  @OneToMany(mappedBy = "modules", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<RestEndPoints> endPoints = new ArrayList<>();
-} // End of Environments.
+} // End of Modules.

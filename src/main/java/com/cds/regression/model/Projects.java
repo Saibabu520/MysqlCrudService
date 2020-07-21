@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,4 +51,9 @@ public class Projects implements Serializable {
   
   @OneToMany(mappedBy= "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Environments> environments = new ArrayList<>();
+  
+  @OneToMany(mappedBy= "projects", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonManagedReference(value = "modules")
+  private List<Modules> modules = new ArrayList<>();
+  
 } // End of Projects.

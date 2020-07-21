@@ -24,4 +24,6 @@ public interface WeblogicRepo extends JpaRepository<Weblogic, String> {
 
   //@Query(value = "{'projectName' : ?0 , 'moduleName' : ?1}")
   //Optional<Weblogic> findByProjModule(String projName, String moduleName);
+  
+  
 } // End of WeblogicRepo.
